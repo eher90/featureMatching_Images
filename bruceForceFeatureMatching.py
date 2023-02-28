@@ -4,8 +4,8 @@ import cv2 as cv
 import matplotlib.pyplot as plt
 
 # Initialize the first two images
-image1 = cv.imread('featureMatching_Images/images/artemisDrawing.png') # queryImage
-image2 = cv.imread('featureMatching_Images/images/artemisProfessional.jpeg') # train Image
+image1 = cv.imread('featureMatching_Images/images/artemisDrawing.png', cv.IMREAD_GRAYSCALE) # queryImage
+image2 = cv.imread('featureMatching_Images/images/artemisProfessional.jpeg', cv.IMREAD_GRAYSCALE) # train Image
 
 # Added ORB detector (algoritm)
 orb = cv.ORB_create()
@@ -25,4 +25,4 @@ matches = sorted(matches, key=lambda x:x.distance)
 
 img3 = cv.drawMatches(image1, kp1, image2, kp2, matches[:20], None, flags=cv.DrawMatchesFlags_NOT_DRAW_SINGLE_POINTS)
 plt.imshow(img3), plt.show()
-print(matches.distance)
+print(matches)
