@@ -1,5 +1,3 @@
-# BRUTE FORCE METHOD using ORB
-
 # Import necessary libraries
 import numpy as np 
 import cv2 as cv
@@ -11,6 +9,9 @@ names = ['artemis', 'babylon', 'lighthouse', 'masoleum', 'rhodes', 'zeus']
 for x in names:
     image1 = cv.imread(f'featureMatching_Images/images/{x}Drawing.jpg', cv.IMREAD_GRAYSCALE) # queryImage
     image2 = cv.imread(f'featureMatching_Images/images/{x}Professional.jpg', cv.IMREAD_GRAYSCALE) # train Image
+
+    # BRUTE FORCE METHOD using ORB
+    #-----------------------------------------
 
     # Added ORB detector (algoritm)
     orb = cv.ORB_create()
@@ -34,14 +35,20 @@ for x in names:
 
 
     # USING SIFT Descriptors
+    #------------------------------------------
+
+    # Used SIFT detector
     sift = cv.SIFT_create()
 
+    # Find keypoints and descriptors with SIFT
     kp1, des1 = sift.detectAndCompute(image1,None)
     kp2, des2 = sift.detectAndCompute(image2,None)
 
+    # Created BFMatcher object
     bf = cv.BFMatcher()
     matches = bf.knnMatch(des1,des2,k=2)
 
+    # Find the good values in the knn Matches
     good = []
     for m,n in matches:
         if m.distance < 0.75*n.distance:
