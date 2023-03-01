@@ -6,44 +6,47 @@ import cv2 as cv
 import matplotlib.pyplot as plt
 
 # Initialize the first two images
-image1 = cv.imread('featureMatching_Images/images/artemisDrawing.png', cv.IMREAD_GRAYSCALE) # queryImage
-image2 = cv.imread('featureMatching_Images/images/artemisProfessional.jpeg', cv.IMREAD_GRAYSCALE) # train Image
+names = ['artemis', 'babylon', 'lighthouse', 'masoleum', 'rhodes', 'zeus']
 
-# Added ORB detector (algoritm)
-orb = cv.ORB_create()
+for x in names:
+    image1 = cv.imread(f'featureMatching_Images/images/{x}Drawing.jpg', cv.IMREAD_GRAYSCALE) # queryImage
+    image2 = cv.imread(f'featureMatching_Images/images/{x}Professional.jpg', cv.IMREAD_GRAYSCALE) # train Image
 
-# find keypoints and descriptors with ORB
-kp1, des1 = orb.detectAndCompute(image1, None)
-kp2, des2 = orb.detectAndCompute(image2, None)
+    # Added ORB detector (algoritm)
+    orb = cv.ORB_create()
 
-# Create BFMatcher object (distance measurement)
-bf = cv.BFMatcher(cv.NORM_HAMMING, crossCheck = True)
+    # find keypoints and descriptors with ORB
+    kp1, des1 = orb.detectAndCompute(image1, None)
+    kp2, des2 = orb.detectAndCompute(image2, None)
 
-# Match descriptors
-matches = bf.match(des1, des2)
+    # Create BFMatcher object (distance measurement)
+    bf = cv.BFMatcher(cv.NORM_HAMMING, crossCheck = True)
 
-# Sort them in order of distance
-matches = sorted(matches, key=lambda x:x.distance)
+    # Match descriptors
+    matches = bf.match(des1, des2)
 
-img3 = cv.drawMatches(image1, kp1, image2, kp2, matches[:20], None, flags=cv.DrawMatchesFlags_NOT_DRAW_SINGLE_POINTS)
-plt.imshow(img3), plt.show()
-print(matches)
+    # Sort them in order of distance
+    matches = sorted(matches, key=lambda x:x.distance)
+
+    img3 = cv.drawMatches(image1, kp1, image2, kp2, matches[:20], None, flags=cv.DrawMatchesFlags_NOT_DRAW_SINGLE_POINTS)
+    plt.imshow(img3), plt.show()
+    print(matches)
 
 
-# USING SIFT Descriptors
-sift = cv.SIFT_create()
+    # USING SIFT Descriptors
+    sift = cv.SIFT_create()
 
-kp1, des1 = sift.detectAndCompute(image1,None)
-kp2, des2 = sift.detectAndCompute(image2,None)
+    kp1, des1 = sift.detectAndCompute(image1,None)
+    kp2, des2 = sift.detectAndCompute(image2,None)
 
-bf = cv.BFMatcher()
-matches = bf.knnMatch(des1,des2,k=2)
+    bf = cv.BFMatcher()
+    matches = bf.knnMatch(des1,des2,k=2)
 
-good = []
-for m,n in matches:
-    if m.distance < 0.75*n.distance:
-        good.append([m])
+    good = []
+    for m,n in matches:
+        if m.distance < 0.75*n.distance:
+            good.append([m])
 
-img3 = cv.drawMatchesKnn(image1,kp1,image2,kp2,good,None,flags=cv.DrawMatchesFlags_NOT_DRAW_SINGLE_POINTS)
+    img3 = cv.drawMatchesKnn(image1,kp1,image2,kp2,good,None,flags=cv.DrawMatchesFlags_NOT_DRAW_SINGLE_POINTS)
 
-plt.imshow(img3),plt.show()
+    plt.imshow(img3),plt.show()
