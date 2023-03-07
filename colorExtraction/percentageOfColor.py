@@ -22,6 +22,15 @@ from PIL import Image
 
 im = Image.open('featureMatching_Images/images/artemisDrawing.jpg')
 
-im_rgb = im.convert('L')
-pallette = im_rgb.getcolors(100000)
-print(pallette)
+grayscale = im.convert('L')
+grayscaleData = grayscale.getcolors(100000)
+print(grayscaleData)
+
+import pandas as pd
+
+data = grayscaleData
+
+df = pd.DataFrame.from_records(data, columns = ['Count of Pixels', 'Grayscale Pixel Number'])
+print(df)
+
+df.to_csv('test1.csv')
