@@ -15,3 +15,13 @@ gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 histogram = cv2.calcHist([gray_image], [0], None, [256], [0, 256])
 plt.plot(histogram, color='k')
 plt.show()
+
+
+# Get it in a table format
+from PIL import Image
+
+im = Image.open('featureMatching_Images/images/artemisDrawing.jpg')
+
+im_rgb = im.convert('L')
+pallette = im_rgb.getcolors(100000)
+print(pallette)
