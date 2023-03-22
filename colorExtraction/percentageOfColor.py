@@ -25,17 +25,18 @@ plt.show()
 # From Image to Table Format
 from PIL import Image
 
-im = Image.open('featureMatching_Images/images/artemisDrawing.jpg')
+for i in range(1, 7):
+    im = Image.open(f'featureMatching_Images/artistsImages/heemskerck_0{i}.png')
 
-grayscale = im.convert('L')
-grayscaleData = grayscale.getcolors(100000)
-print(grayscaleData)
+    grayscale = im.convert('L')
+    grayscaleData = grayscale.getcolors(100000)
+    print(grayscaleData)
 
-import pandas as pd
+    import pandas as pd
 
-data = grayscaleData
+    data = grayscaleData
 
-df = pd.DataFrame.from_records(data, columns = ['Count of Pixels', 'Grayscale Pixel Number'])
-print(df)
+    df = pd.DataFrame.from_records(data, columns = ['Count of Pixels', 'Grayscale Pixel Number'])
+    print(df)
 
-df.to_csv('test1.csv')
+    df.to_csv(f'featureMatching_Images/artistsTableData/heemskerckData_0{i}.csv')
