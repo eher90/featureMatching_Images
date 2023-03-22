@@ -4,8 +4,13 @@
 # We know that comparing the two images based on visual reference by feature matching yields little similarity and that is mostly based on similar small details between images.
 # Also, OpenCV feature matching works only if you have two of the same images in different areas (think perspective, rotation, translation, etc.)
 
-# My next idea is that if visual identification feature matching may not work, we can perhaps quantatiatively determine the simialrity based on the distribution of pixel colors.
 
+
+
+# My next idea is that if visual identification feature matching may not work, we can perhaps quantatiatively determine the simialrity based on the distribution of pixel colors.
+#-----------------------------------------------------
+
+# From Image to Histogram Manually
 import cv2
 import matplotlib.pyplot as plt
 
@@ -17,7 +22,7 @@ plt.plot(histogram, color='k')
 plt.show()
 
 
-# Get it in a table format
+# From Image to Table Format
 from PIL import Image
 
 im = Image.open('featureMatching_Images/images/artemisDrawing.jpg')
